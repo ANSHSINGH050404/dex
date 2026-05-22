@@ -1,31 +1,40 @@
-'use client';
+"use client";
 import React, { useEffect, useState } from "react";
-import BACKEND_URL from "@/lib/auth";
+import { BACKEND_URL } from "@/lib/auth";
+import { useRouter } from "next/navigation";
 export const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const navigate = useRouter();
 
-  const handleSignIn = async() => {
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate.push("/");
+    }
+  }, [navigate]);
+  const handleSignIn = async () => {
     setLoading(true);
 
-      // setTimeout(() => {
-      //   setLoading(false);
-      //   alert("SignUp Successful!");
-      // },2000)
-
-      useEffect(() => {
-        setLoading(true);
-
-         fetch(`${BACKEND_URL}/api/signup`, {
-          method: "POST",
-          headers: {},
-          body: JSON.stringify({ email, password }),
-        })
-      },[])
-    
-  }
+    try {
+     
+      await fetch(`${BACKEND_URL}/auth/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+    } catch {
+      console.error("Failed to Authenticate");
+    } finally {
+      navigate.push("/login");
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4  border-2 border-gray-600 h-[60vh] w-[30vw] bg-gray-900 items-center justify-center">
@@ -44,7 +53,10 @@ export const Signup = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <button onClick={handleSignIn} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <button
+        onClick={handleSignIn}
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
         {loading ? "Signing Up..." : "Sign Up"}
       </button>
     </div>

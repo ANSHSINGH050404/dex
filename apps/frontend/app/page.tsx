@@ -1,10 +1,19 @@
-
-import { Login } from "../component/login";
+import { Navbar } from "../component/Navbar";
+import { Hero } from "../component/Hero";
+import { Features } from "../component/Features";
+import { YieldSection } from "../component/YieldSection";
+import { Footer } from "../component/Footer";
 
 export default function Home() {
   return (
-    <main className="flex items-center justify-center h-screen ">
-   <h1>Hoem</h1>
-    </main>
+    <>
+      <Navbar />
+      <main>
+        <Hero />
+        <Features />
+        <YieldSection />
+      </main>
+      <Footer />
+    </>
   );
 }
