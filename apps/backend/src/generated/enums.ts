@@ -9,6 +9,22 @@
 * 🟢 You can import this file directly.
 */
 
+export const MarketType = {
+  LIMIT: 'LIMIT',
+  MARKET: 'MARKET'
+} as const
+
+export type MarketType = (typeof MarketType)[keyof typeof MarketType]
+
+
+export const OrderType = {
+  BUY: 'BUY',
+  SELL: 'SELL'
+} as const
+
+export type OrderType = (typeof OrderType)[keyof typeof OrderType]
+
+
 export const Status = {
   PENDING: 'PENDING',
   FILLED: 'FILLED',

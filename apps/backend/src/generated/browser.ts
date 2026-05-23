@@ -38,7 +38,7 @@ export type Stock = Prisma.StockModel
  */
 export type Order = Prisma.OrderModel
 /**
- * Model Fills
+ * Model Fill
  * 
  */
-export type Fills = Prisma.FillsModel
+export type Fill = Prisma.FillModel

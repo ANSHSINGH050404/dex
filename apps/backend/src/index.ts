@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/auth.js";
 import { authenticate } from "./middleware/auth.js";
 import { protectedRoute } from "./controllers/auth.controller.js";
+import orderRoutes from "./routes/order.js";
 
 dotenv.config();
 
@@ -18,7 +19,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/auth", authRoutes);
+app.use("/api", orderRoutes);
 app.get("/protected", authenticate, protectedRoute);
+
+
 app.get("/health",(req,res)=>{
   res.send("OK");
 })

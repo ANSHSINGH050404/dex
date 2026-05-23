@@ -7,14 +7,14 @@ datasource db {
   provider = "postgresql"
 }
 
+
 model User {
   id            String         @id @default(cuid())
   email         String         @unique
   password      String
   refreshTokens RefreshToken[]
-  stock         Stock[]
-  balance       String         @default("25000") // Default balance of 1 million
-  lockedBalance String         @default("0") // Locked balance for pending orders
+  balance       Decimal         @default("25000") // Default balance of 1 million
+  lockedBalance Decimal         @default("0") // Locked balance for pending orders
   orders        Order[]
 }
 
@@ -24,33 +24,42 @@ model RefreshToken {
   userId    String
   expiresAt DateTime
   createdAt DateTime @default(now())
-
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
 
 model Stock {
   id        String   @id @default(cuid())
   name      String
-  symbol    String // SOL BTC ETH
-  price     Float
+  symbol    String    @unique  // SOL BTC ETH
+  price     Decimal
   createdAt DateTime @default(now())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   order     Order[]
 }
 
 model Order {
   id        String   @id @default(cuid())
   userId    String
-  market    String   //limit market
+  market    MarketType   //limit market
   quantity  Int
-  price     Float
-  orderType String   // buy sell
+  price     Decimal
+  orderType OrderType   // buy sell
   status    Status
   createdAt DateTime @default(now())
   stockId   String
   stock     Stock    @relation(fields: [stockId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fill      Fill[]
+}
+
+enum MarketType {
+  LIMIT
+  MARKET
+}
+
+enum OrderType {
+  BUY
+  SELL
 }
 
 enum Status {
@@ -59,10 +68,13 @@ enum Status {
   CANCELLED
 }
 
-model Fills {
+
+model Fill {
   id        String   @id @default(cuid())
   orderId   String
-  price     Float
+  price     Decimal
   quantity  Int
   createdAt DateTime @default(now())
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
 }

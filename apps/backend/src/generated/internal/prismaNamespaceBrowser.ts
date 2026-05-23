@@ -55,7 +55,7 @@ export const ModelName = {
   RefreshToken: 'RefreshToken',
   Stock: 'Stock',
   Order: 'Order',
-  Fills: 'Fills'
+  Fill: 'Fill'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -77,7 +77,9 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
-  password: 'password'
+  password: 'password',
+  balance: 'balance',
+  lockedBalance: 'lockedBalance'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -99,8 +101,7 @@ export const StockScalarFieldEnum = {
   name: 'name',
   symbol: 'symbol',
   price: 'price',
-  createdAt: 'createdAt',
-  userId: 'userId'
+  createdAt: 'createdAt'
 } as const
 
 export type StockScalarFieldEnum = (typeof StockScalarFieldEnum)[keyof typeof StockScalarFieldEnum]
@@ -113,7 +114,6 @@ export const OrderScalarFieldEnum = {
   quantity: 'quantity',
   price: 'price',
   orderType: 'orderType',
-  side: 'side',
   status: 'status',
   createdAt: 'createdAt',
   stockId: 'stockId'
@@ -122,16 +122,15 @@ export const OrderScalarFieldEnum = {
 export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
 
 
-export const FillsScalarFieldEnum = {
+export const FillScalarFieldEnum = {
   id: 'id',
   orderId: 'orderId',
   price: 'price',
   quantity: 'quantity',
-  side: 'side',
   createdAt: 'createdAt'
 } as const
 
-export type FillsScalarFieldEnum = (typeof FillsScalarFieldEnum)[keyof typeof FillsScalarFieldEnum]
+export type FillScalarFieldEnum = (typeof FillScalarFieldEnum)[keyof typeof FillScalarFieldEnum]
 
 
 export const SortOrder = {
