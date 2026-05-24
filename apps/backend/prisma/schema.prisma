@@ -53,7 +53,7 @@ model Order {
 }
 
 enum MarketType {
-  LIMIT
+  LIMIT    
   MARKET
 }
 

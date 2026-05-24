@@ -76,14 +76,43 @@ export const Order = async (req: AuthRequest, res: Response) => {
     },
   });
 
+ 
   return res.status(201).json(order);
 };
 
 
-export const getOrder=(req:AuthRequest,res:Response)=>{
-   const orderID=req.body;
-   
+export const getOrder=async(req:AuthRequest,res:Response)=>{
+   const userId=req.userId;
+   const orders=await prisma.order.findMany({
+    where:{userId:userId},
+   })
+   return res.json({orders})
+
 }
+
+
+export const cancelOrder=(req:AuthRequest,res:Response)=>{
+       const userId=req.userId;
+       const orderId=req.params.orderId;
+       const order=prisma.order.findUnique({
+        where:{id:orderId},
+       })
+       if(!order){
+        return res.status(404).json({error:"Order not found"})
+       }
+       if(order.userId!==userId){
+        return res.status(403).json({error:"Unauthorized"})
+       }
+      //  if(order.status!=="PENDING"){
+      //   return res.status(400).json({error:"Only pending orders can be cancelled"})
+      //  }
+       prisma.order.update({
+        where:{id:orderId},
+        data:{status:"CANCELLED"}
+       })
+       return res.json({message:"Order cancelled successfully"})
+}
+
 
 
 

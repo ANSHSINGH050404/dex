@@ -2,7 +2,8 @@ import { Router } from "express";
 import { authenticate } from "../middleware/auth.js";
 import {
   Order,
-//   cancelOrder,
+  getOrder,
+  cancelOrder,
 //   getOrders,
 //   getOrderBook,
 } from "../controllers/order.controller.js";
@@ -11,7 +12,8 @@ import {
 const router = Router();
 
 router.post("/order", authenticate, Order);
-// router.delete("/:orderId", cancelOrder);
-// router.get("/", getOrders);
+
+router.get("/getorders",authenticate, getOrder);
+router.delete("/:orderId", cancelOrder);
 // router.get("/orderbook/:symbol", getOrderBook);
 export default router;
