@@ -80,5 +80,11 @@ export const Order = async (req: AuthRequest, res: Response) => {
 };
 
 
+export const getOrder=(req:AuthRequest,res:Response)=>{
+   const orderID=req.body;
+   
+}
+
+
 
 
